@@ -1,11 +1,13 @@
+'use strict';
+
 const Discord = require('discord.js');
 const config = require("./config.json");
 
-
-require('./vibe.js');
-require('./mood.js');
+const vibecheck = require('./vibe.js');
+const mood = require('./mood.js');
 
 let clownify = config.default_clownify;
+let i, msg, sanitizedUIDs = [];
 
 const client = new Discord.Client();
 const listedUsers = [
@@ -22,8 +24,6 @@ const brolist = [
 	"brotthew"
 ];
 
-let sanitizedUIDs = [];
-
 for (i = 0; i < listedUsers.length; i++) {
 	sanitizedUIDs.push(listedUsers[i].uID);
 }
@@ -33,17 +33,13 @@ function User(uname, uID) {
 	this.uID = uID;
 }
 
-client.on('message', msg => mood(msg, () => {
+client.on('message', msg => {
 
 	if (clownify) {
 		if (sanitizedUIDs.indexOf(msg.author.id) > 0) {
 			msg.react('🤡');
 		}
-		// console.log(msg.author.id);
-		// console.log(sanitizedUIDs);
-		// console.log(sanitizedUIDs.indexOf(msg.author.id));
 	}
-
 
 	if (msg.content.indexOf(config.prefix) === 0) {
 		const args = msg.content.slice(config.prefix.length).trim().split(/ +/g);
@@ -51,18 +47,25 @@ client.on('message', msg => mood(msg, () => {
 
 		switch (command) {
 			case "on":
-				return clownify = true;
+                clownify = true;
+				return msg.reply("Clown fiesta is now turned ON, " + randomBro());
 			case "off":
-				return clownify = false;
-			case "vibecheck":
+				clownify = false;
+                return msg.reply("Clown fiesta is now turned OFF, " + randomBro());
+            case "chimp":
+                return msg.reply("Current chimp is: <@"+listedUsers[Math.floor(Math.random() * listedUsers.length)].uID+">");
+            case "vibecheck":
+                randomBro();
 				return vibecheck(msg, randomBro());
 			default:
+                randomBro();
 				return msg.reply("I don't know that command, " + randomBro());
 		}
 	}
-}));
+});
 
+client.login('NjM5MTU1NTkzNzU1NDkyMzUy.XeKZFA.vHaXrLa46MFAvsQUq1caROTfCa8');
 
-client.login('secret');
-
-function randomBro() { return brolist[Math.random * brolist.length] }
+function randomBro() {
+    return brolist[Math.floor(Math.random() * brolist.length)];
+}
