@@ -2,6 +2,8 @@
   "name": "BobDeBot",
   "version": "1.0.0",
   "dependencies": {
-    "discord.js": "latest"
+    "discord.io": "^2.5.3",
+    "discord.js": "latest",
+    "winston": "^3.2.1"
   }
 }
