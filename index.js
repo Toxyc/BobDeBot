@@ -34,34 +34,33 @@ function User(uname, uID) {
 }
 
 client.on('message', msg => {
+	mood(msg, randomBro(), () => {
+        if (clownify) {
+            if (sanitizedUIDs.indexOf(msg.author.id) > 0) {
+                msg.react('🤡');
+            }
+        }
 
-	if (clownify) {
-		if (sanitizedUIDs.indexOf(msg.author.id) > 0) {
-			msg.react('🤡');
-		}
-	}
+        if (msg.content.indexOf(config.prefix) > 0) {
+            const args = msg.content.slice(config.prefix.length ).trim().split(/ +/g);
+            const command = args.shift().toLowerCase();
 
-	if (msg.content.indexOf(config.prefix) === 0) {
-		const args = msg.content.slice(config.prefix.length).trim().split(/ +/g);
-		const command = args.shift().toLowerCase();
-
-		switch (command) {
-			case "on":
-                clownify = true;
-				return msg.reply("Clown fiesta is now turned ON, " + randomBro());
-			case "off":
-				clownify = false;
-                return msg.reply("Clown fiesta is now turned OFF, " + randomBro());
-            case "chimp":
-                return msg.reply("Current chimp is: <@"+listedUsers[Math.floor(Math.random() * listedUsers.length)].uID+">");
-            case "vibecheck":
-                randomBro();
-				return vibecheck(msg, randomBro());
-			default:
-                randomBro();
-				return msg.reply("I don't know that command, " + randomBro());
-		}
-	}
+            switch (command) {
+                case "on":
+                    clownify = true;
+                    return msg.reply("Clown fiesta is now turned ON, " + randomBro());
+                case "off":
+                    clownify = false;
+                    return msg.reply("Clown fiesta is now turned OFF, " + randomBro());
+                case "chimp":
+                    return msg.reply("Current chimp is: <@"+listedUsers[Math.floor(Math.random() * listedUsers.length)].uID+">");
+                case "vibecheck":
+                    return vibecheck(msg, randomBro());
+                default:
+                    return msg.reply("I don't know that command, " + randomBro());
+            }
+        }
+    });
 });
 
 client.login('NjM5MTU1NTkzNzU1NDkyMzUy.XeKZFA.vHaXrLa46MFAvsQUq1caROTfCa8');

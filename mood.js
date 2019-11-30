@@ -5,7 +5,10 @@ module.exports = (msg, bro, cb) => {
         "Not in the mood, " + bro
     ];
 
-    if (Math.random() > 0.5) {
+    let random = Math.random();
+    console.log(random);
+
+    if (random > 0.5) {
         // Good mood
         return cb();
     } else {
